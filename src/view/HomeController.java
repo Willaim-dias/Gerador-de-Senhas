@@ -28,13 +28,7 @@ public class HomeController implements Initializable {
     private RadioButton rbCharacters;//[3]
 
     @FXML
-    private RadioButton rbActiveKey;//Em dev..
-
-    @FXML
     private Slider sliderNumber;
-
-    @FXML
-    private TextField txtKey;
 
     @FXML
     private TextField txtSize;
@@ -49,37 +43,29 @@ public class HomeController implements Initializable {
     private final boolean[] option = new boolean[5];
 
     public void onBtCreatePassword() {
-        txtNewPassword.setText("");
-        if (rbActiveKey.isSelected()) {
-            if (txtKey.getText().isEmpty()) {
-              alertLabel("Adicione a chave de criptografia.");  
+        option[0] = rbABC.isSelected();
+        option[1] = rbabc.isSelected();
+        option[2] = rb123.isSelected();
+        option[3] = rbCharacters.isSelected();
+
+        passwordSize = Integer.parseInt(txtSize.getText());
+
+        boolean rbSelected = false;
+
+        for (boolean b : option) {
+            if (b) {
+                rbSelected = true;
+                break;
             }
+        }
+
+        if (passwordSize < 6 || passwordSize > 100) {
+            alertLabel("Tamanho invalido. Digite um valor entre 6  e 100");
+        } else if (rbSelected) {
+            alertLabel("");
+            txtNewPassword.setText(generate.passwordWithoutkey(option, passwordSize));
         } else {
-            option[0] = rbABC.isSelected();
-            option[1] = rbabc.isSelected();
-            option[2] = rb123.isSelected();
-            option[3] = rbCharacters.isSelected();
-
-            passwordSize = Integer.parseInt(txtSize.getText());
-
-            boolean rbSelected = false;
-            
-            for (boolean b : option) {
-                if (b) {
-                    rbSelected = true;
-                    break;
-                }
-            }
-
-            if (passwordSize < 4 || passwordSize > 100) {
-                alertLabel("Tamanho invalido. Digite um valor entre 4  e 100");
-            } else if (rbSelected){
-                alertLabel("");
-                txtNewPassword.setText(generate.passwordWithoutkey(option, passwordSize));
-            } else {
-                alertLabel("Selecione pelo menos um Caracteres.");  
-            }
-
+            alertLabel("Selecione pelo menos um Caracteres.");
         }
     }
 

@@ -23,7 +23,7 @@ public class GeneratePassword {
 
         String[] charactersRemaining = (String.join("", ABC) + String.join("", abc) + String.join("", number) + String.join("", character)).split("");
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             password.append(charactersRemaining[random.nextInt(charactersRemaining.length)]);
         }
 
@@ -60,18 +60,19 @@ public class GeneratePassword {
         }
 
         String[] poolArrry = charactersPool.toString().split("");
-        for (int i = 0; i < size; i++) {
+
+        for (int i = password.length(); i < size; i++) {
             password.append(poolArrry[random.nextInt(poolArrry.length)]);
         }
 
         char[] shuffle = password.toString().toCharArray();
-
         for (int i = 0; i < shuffle.length; i++) {
             int position = random.nextInt(shuffle.length);
-            char temp = shuffle[position];
+            char temp = shuffle[i];
             shuffle[i] = shuffle[position];
             shuffle[position] = temp;
         }
+
         return new String(shuffle);
     }
 }
