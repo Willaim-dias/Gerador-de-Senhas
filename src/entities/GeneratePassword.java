@@ -39,48 +39,39 @@ public class GeneratePassword {
     }
 
     public String passwordWithoutkey(boolean[] option, int size) {
-        boolean isTrue = false;
-        for (boolean b : option) {
-            if (b) {
-                isTrue = true;
-            }
+        StringBuilder password = new StringBuilder();
+        StringBuilder charactersPool = new StringBuilder();
+
+        if (option[0]) {
+            password.append(ABC[random.nextInt(ABC.length)]);
+            charactersPool.append(String.join("", ABC));
         }
-        if (isTrue) {
-            StringBuilder password = new StringBuilder();
-            StringBuilder charactersPool = new StringBuilder();
-
-            if (option[0]) {
-                password.append(ABC[random.nextInt(ABC.length)]);
-                charactersPool.append(String.join("", ABC));
-            }
-            if (option[1]) {
-                password.append(abc[random.nextInt(abc.length)]);
-                charactersPool.append(String.join("", abc));
-            }
-            if (option[2]) {
-                password.append(number[random.nextInt(number.length)]);
-                charactersPool.append(String.join("", number));
-            }
-            if (option[3]) {
-                password.append(character[random.nextInt(character.length)]);
-                charactersPool.append(String.join("", character));
-            }
-
-            String[] poolArrry = charactersPool.toString().split("");
-            for (int i = 0; i < size; i++) {
-                password.append(poolArrry[random.nextInt(poolArrry.length)]);
-            }
-
-            char[] shuffle = password.toString().toCharArray();
-
-            for (int i = 0; i < shuffle.length; i++) {
-                int position = random.nextInt(shuffle.length);
-                char temp = shuffle[position];
-                shuffle[i] = shuffle[position];
-                shuffle[position] = temp;
-            }
-            return new String(shuffle);
+        if (option[1]) {
+            password.append(abc[random.nextInt(abc.length)]);
+            charactersPool.append(String.join("", abc));
         }
-        return passwordStandard();
+        if (option[2]) {
+            password.append(number[random.nextInt(number.length)]);
+            charactersPool.append(String.join("", number));
+        }
+        if (option[3]) {
+            password.append(character[random.nextInt(character.length)]);
+            charactersPool.append(String.join("", character));
+        }
+
+        String[] poolArrry = charactersPool.toString().split("");
+        for (int i = 0; i < size; i++) {
+            password.append(poolArrry[random.nextInt(poolArrry.length)]);
+        }
+
+        char[] shuffle = password.toString().toCharArray();
+
+        for (int i = 0; i < shuffle.length; i++) {
+            int position = random.nextInt(shuffle.length);
+            char temp = shuffle[position];
+            shuffle[i] = shuffle[position];
+            shuffle[position] = temp;
+        }
+        return new String(shuffle);
     }
 }

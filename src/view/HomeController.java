@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -41,6 +42,9 @@ public class HomeController implements Initializable {
     @FXML
     private TextField txtNewPassword;
 
+    @FXML
+    private Label labelAlert;
+
     private int passwordSize;
     private final boolean[] option = new boolean[5];
 
@@ -48,17 +52,40 @@ public class HomeController implements Initializable {
         txtNewPassword.setText("");
         if (rbActiveKey.isSelected()) {
             if (txtKey.getText().isEmpty()) {
-                txtKey.setStyle("-fx-border-color: red;");
+              alertLabel("Adicione a chave de criptografia.");  
             }
         } else {
             option[0] = rbABC.isSelected();
             option[1] = rbabc.isSelected();
             option[2] = rb123.isSelected();
             option[3] = rbCharacters.isSelected();
+
             passwordSize = Integer.parseInt(txtSize.getText());
+
+            boolean rbSelected = false;
             
-            txtNewPassword.setText(generate.passwordWithoutkey(option, passwordSize));
+            for (boolean b : option) {
+                if (b) {
+                    rbSelected = true;
+                    break;
+                }
+            }
+
+            if (passwordSize < 4 || passwordSize > 100) {
+                alertLabel("Tamanho invalido. Digite um valor entre 4  e 100");
+            } else if (rbSelected){
+                alertLabel("");
+                txtNewPassword.setText(generate.passwordWithoutkey(option, passwordSize));
+            } else {
+                alertLabel("Selecione pelo menos um Caracteres.");  
+            }
+
         }
+    }
+
+    public void onBtPasswordStandard() {
+        alertLabel("");
+        txtNewPassword.setText(generate.passwordStandard());
     }
 
     @Override
@@ -72,6 +99,11 @@ public class HomeController implements Initializable {
             passwordSize = (int) sliderNumber.getValue();
             txtSize.setText("" + passwordSize);
         });
+    }
+
+    private void alertLabel(String text) {
+        labelAlert.setStyle("-fx-text-fill: red;");
+        labelAlert.setText(text);
     }
 
 }
