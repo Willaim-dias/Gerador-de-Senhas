@@ -23,7 +23,7 @@ public class GeneratePassword {
 
         String[] charactersRemaining = (String.join("", ABC) + String.join("", abc) + String.join("", number) + String.join("", character)).split("");
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 20; i++) {
             password.append(charactersRemaining[random.nextInt(charactersRemaining.length)]);
         }
 
